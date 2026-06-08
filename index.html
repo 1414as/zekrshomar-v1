@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ذکر شمار</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Vazirmatn', sans-serif;
+  background: linear-gradient(160deg, #f0faf4 0%, #e8f5ec 40%, #ffffff 100%);
+  min-height: 100vh;
+  padding-bottom: 50px;
+}
+
+.header {
+  background: linear-gradient(135deg, #1a6b3a 0%, #2d8a54 60%, #3aad6e 100%);
+  padding: 24px 16px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -20px; left: -20px;
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 6px;
+}
+
+.logo-svg {
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.2));
+}
+
+.app-title {
+  font-family: 'Amiri', serif;
+  font-size: 34px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.app-subtitle {
+  font-size: 13px;
+  color: rgba(255,255,255,0.72);
+  margin-bottom: 18px;
+}
+
+.tabs {
+  display: flex;
+  margin: 0 12px;
+  background: rgba(0,0,0,0.18);
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.tab {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: rgba(255,255,255,0.72);
+  background: transparent;
+  border: none;
+  font-family: 'Vazirmatn', sans-serif;
+}
+
+.tab.active {
+  background: #fff;
+  color: #1a6b3a;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.section {
+  padding: 16px 14px;
+  display: none;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.section.active { display: block; }
+
+.zekr-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 20px 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 3px 16px rgba(26,107,58,0.1);
+  border: 1px solid rgba(26,107,58,0.12);
+}
+
+.zekr-text {
+  font-family: 'Amiri', serif;
+  font-size: 22px;
+  color: #1a3a28;
+  text-align: center;
+  margin-bottom: 16px;
+  line-height: 1.7;
+}
+
+.counter-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.counter-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1a6b3a, #2d8a54);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(26,107,58,0.4);
+  transition: transform 0.1s, box-shadow 0.1s;
+  color: #fff;
+  font-size: 32px;
+  font-weight: 700;
+  user-select: none;
+  line-height: 1;
+}
+
+.counter-btn:active {
+  transform: scale(0.91);
+  box-shadow: 0 2px 6px rgba(26,107,58,0.3);
+}
+
+.counter-display {
+  width: 88px;
+  height: 60px;
+  background: #f0faf4;
+  border: 2.5px solid #2d8a54;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a6b3a;
+  transition: all 0.3s;
+}
+
+.counter-display.complete {
+  background: #1a6b3a;
+  color: #fff;
+}
+
+.counter-max {
+  font-size: 12px;
+  color: #999;
+  margin-top: 7px;
+  text-align: center;
+}
+
+.reset-btn {
+  background: transparent;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 5px 14px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #aaa;
+  font-family: 'Vazirmatn', sans-serif;
+  display: block;
+  margin: 10px auto 0;
+  transition: all 0.2s;
+}
+
+.reset-btn:hover { border-color: #1a6b3a; color: #1a6b3a; }
+
+.day-selector {
+  background: #fff;
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 3px 16px rgba(26,107,58,0.1);
+  border: 1px solid rgba(26,107,58,0.12);
+}
+
+.day-label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.select-wrap { position: relative; }
+
+.day-select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #2d8a54;
+  border-radius: 12px;
+  font-size: 16px;
+  font-family: 'Vazirmatn', sans-serif;
+  color: #1a3a28;
+  background: #f8fffa;
+  appearance: none;
+  cursor: pointer;
+  outline: none;
+  direction: rtl;
+}
+
+.select-wrap::after {
+  content: '▾';
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #2d8a54;
+  pointer-events: none;
+  font-size: 16px;
+}
+
+.day-zekr-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 22px 16px;
+  box-shadow: 0 3px 16px rgba(26,107,58,0.1);
+  border: 2px solid rgba(26,107,58,0.15);
+  margin-bottom: 16px;
+}
+
+.day-zekr-text {
+  font-family: 'Amiri', serif;
+  font-size: 24px;
+  color: #1a3a28;
+  text-align: center;
+  margin-bottom: 18px;
+  line-height: 1.7;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-bar-wrap {
+  background: #e8f5ec;
+  border-radius: 8px;
+  height: 10px;
+  margin-bottom: 18px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #1a6b3a, #3aad6e);
+  border-radius: 8px;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+.counter-row-big {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.counter-btn-big {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1a6b3a, #3aad6e);
+  border: none;
+  cursor: pointer;
+  font-size: 38px;
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 6px 20px rgba(26,107,58,0.45);
+  transition: transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  line-height: 1;
+}
+
+.counter-btn-big:active { transform: scale(0.91); }
+
+.counter-display-big {
+  width: 110px;
+  height: 72px;
+  background: #f0faf4;
+  border: 3px solid #2d8a54;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  font-weight: 700;
+  color: #1a6b3a;
+  flex-direction: column;
+  transition: all 0.3s;
+}
+
+.counter-display-big .sub {
+  font-size: 11px;
+  color: #888;
+  font-weight: 400;
+  margin-top: 2px;
+}
+
+.counter-display-big.complete {
+  background: #1a6b3a;
+  color: #fff;
+}
+
+.counter-display-big.complete .sub { color: rgba(255,255,255,0.7); }
+
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 14px;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(26,107,58,0.2);
+}
+
+.section-divider span {
+  font-size: 12px;
+  color: #2d8a54;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.footer {
+  text-align: center;
+  padding: 24px 16px 8px;
+  color: #888;
+  font-size: 12px;
+}
+
+.footer .designer {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2d8a54;
+  margin-bottom: 2px;
+}
+
+@keyframes flash {
+  0%   { background-color: #f0faf4; }
+  20%  { background-color: #a8e6c1; }
+  40%  { background-color: #f0faf4; }
+  60%  { background-color: #a8e6c1; }
+  80%  { background-color: #f0faf4; }
+  100% { background-color: #f0faf4; }
+}
+
+body.flashing { animation: flash 1.4s ease; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-area">
+    <!-- Custom logo: crescent moon + star in circle -->
+    <svg class="logo-svg" width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer ring -->
+      <circle cx="27" cy="27" r="25" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" fill="rgba(255,255,255,0.12)"/>
+      <!-- Inner decorative ring -->
+      <circle cx="27" cy="27" r="21" stroke="rgba(255,220,80,0.5)" stroke-width="0.8" fill="none"/>
+      <!-- Tasbih bead ring -->
+      <circle cx="27" cy="6"  r="2.2" fill="rgba(255,220,80,0.85)"/>
+      <circle cx="38" cy="9"  r="1.8" fill="rgba(255,220,80,0.7)"/>
+      <circle cx="46" cy="18" r="1.8" fill="rgba(255,220,80,0.7)"/>
+      <circle cx="48" cy="29" r="1.8" fill="rgba(255,220,80,0.7)"/>
+      <circle cx="44" cy="40" r="1.8" fill="rgba(255,220,80,0.7)"/>
+      <circle cx="35" cy="47" r="1.8" fill="rgba(255,220,80,0.7)"/>
+      <circle cx="19" cy="47" r="1.8" fill="rgba(255,220,80,0.7)"/>
+      <circle cx="10" cy="40" r="1.8" fill="rgba(255,220,80,0.7)"/>
+      <circle cx="6"  cy="29" r="1.8" fill="rgba(255,220,80,0.7)"/>
+      <circle cx="8"  cy="18" r="1.8" fill="rgba(255,220,80,0.7)"/>
+      <circle cx="16" cy="9"  r="1.8" fill="rgba(255,220,80,0.7)"/>
+      <!-- Crescent moon -->
+      <path d="M27 14 C19 14 13 20 13 27 C13 34 19 40 27 40 C22 38 18 33 18 27 C18 21 22 16 27 14 Z" fill="rgba(255,255,255,0.95)"/>
+      <!-- Star -->
+      <polygon points="33,18 34.2,21.6 38,21.6 35,23.8 36.2,27.4 33,25.2 29.8,27.4 31,23.8 28,21.6 31.8,21.6" fill="rgba(255,220,80,0.95)"/>
+    </svg>
+    <span class="app-title">ذکر شمار</span>
+  </div>
+  <div class="app-subtitle">تسبیح دیجیتال اسلامی</div>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('general')">ذکر عمومی</button>
+    <button class="tab" onclick="switchTab('daily')">ذکر روزانه</button>
+  </div>
+</div>
+
+<!-- General Section -->
+<div class="section active" id="section-general">
+
+  <div class="zekr-card">
+    <div class="zekr-text">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِیم</div>
+    <div class="counter-row">
+      <button class="counter-btn" onclick="increment('bismillah')">+</button>
+      <div>
+        <div class="counter-display" id="display-bismillah">۰</div>
+        <div class="counter-max">از ۰ تا ۱۹</div>
+      </div>
+    </div>
+    <button class="reset-btn" onclick="reset('bismillah')">↺ بازنشانی</button>
+  </div>
+
+  <div class="zekr-card">
+    <div class="zekr-text">اَللّهُمَّ صَلِّ عَلَی مُحَمَّدٍ وَ آلِ مُحَمَّد</div>
+    <div class="counter-row">
+      <button class="counter-btn" onclick="increment('salawat')">+</button>
+      <div>
+        <div class="counter-display" id="display-salawat">۰</div>
+        <div class="counter-max">از ۰ تا ۱۹</div>
+      </div>
+    </div>
+    <button class="reset-btn" onclick="reset('salawat')">↺ بازنشانی</button>
+  </div>
+
+</div>
+
+<!-- Daily Section -->
+<div class="section" id="section-daily">
+
+  <div class="day-selector">
+    <div class="day-label">روز هفته را انتخاب کنید:</div>
+    <div class="select-wrap">
+      <select class="day-select" id="day-select" onchange="updateDay()">
+        <option value="0">شنبه</option>
+        <option value="1">یکشنبه</option>
+        <option value="2">دوشنبه</option>
+        <option value="3">سه‌شنبه</option>
+        <option value="4">چهارشنبه</option>
+        <option value="5">پنجشنبه</option>
+        <option value="6">جمعه</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Daily specific zekr -->
+  <div class="day-zekr-card">
+    <div class="day-zekr-text" id="day-zekr-text">یَا رَبَّ الْعَالَمِین</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="day-progress"></div>
+    </div>
+    <div class="counter-row-big">
+      <button class="counter-btn-big" onclick="incrementDay()">+</button>
+      <div class="counter-display-big" id="display-day">
+        <span id="day-num">۰</span>
+        <span class="sub">از ۱۰۰</span>
+      </div>
+    </div>
+    <button class="reset-btn" onclick="resetDay()">↺ بازنشانی</button>
+  </div>
+
+  <!-- Divider -->
+  <div class="section-divider">
+    <span>ذکر عمومی همه روزه</span>
+  </div>
+
+  <!-- La hawla - always shown -->
+  <div class="day-zekr-card">
+    <div class="day-zekr-text" style="font-size:20px;">لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللهِ الْعَلِیِّ الْعَظِیم</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="lahawla-progress"></div>
+    </div>
+    <div class="counter-row-big">
+      <button class="counter-btn-big" onclick="incrementLahawla()">+</button>
+      <div class="counter-display-big" id="display-lahawla">
+        <span id="lahawla-num">۰</span>
+        <span class="sub">از ۱۰۰</span>
+      </div>
+    </div>
+    <button class="reset-btn" onclick="resetLahawla()">↺ بازنشانی</button>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="designer">طراح: عباس صادقی</div>
+  <div>نرم‌افزار ذکر شمار &mdash; نسخه ۱.۰</div>
+</div>
+
+<script>
+const toFarsi = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+
+const days = [
+  'یَا رَبَّ الْعَالَمِین',
+  'یَا ذَالْجَلَالِ وَالْاِکْرَام',
+  'یَا قَاضِیَ الْحَاجَات',
+  'یَا اَرْحَمَ الرَّاحِمِین',
+  'یَا حَیُّ یَا قَیُّوم',
+  'لَا إِلٰهَ إِلَّا اللهُ الْمَلِکُ الْحَقُّ الْمُبِین',
+  'اَللّهُمَّ صَلِّ عَلَی مُحَمَّدٍ وَ آلِ مُحَمَّد'
+];
+
+const state = { bismillah: 0, salawat: 0, day: 0, lahawla: 0 };
+
+function increment(key) {
+  if (state[key] >= 19) return;
+  state[key]++;
+  const d = document.getElementById('display-' + key);
+  d.textContent = toFarsi(state[key]);
+  if (state[key] === 19) {
+    d.classList.add('complete');
+    flashPage();
+  }
+}
+
+function reset(key) {
+  state[key] = 0;
+  const d = document.getElementById('display-' + key);
+  d.textContent = toFarsi(0);
+  d.classList.remove('complete');
+}
+
+function incrementDay() {
+  if (state.day >= 100) return;
+  state.day++;
+  renderDayCounter();
+  if (state.day === 100) {
+    document.getElementById('display-day').classList.add('complete');
+    flashPage();
+  }
+}
+
+function resetDay() {
+  state.day = 0;
+  renderDayCounter();
+  document.getElementById('display-day').classList.remove('complete');
+}
+
+function renderDayCounter() {
+  document.getElementById('day-num').textContent = toFarsi(state.day);
+  document.getElementById('day-progress').style.width = (state.day) + '%';
+}
+
+function incrementLahawla() {
+  if (state.lahawla >= 100) return;
+  state.lahawla++;
+  renderLahawla();
+  if (state.lahawla === 100) {
+    document.getElementById('display-lahawla').classList.add('complete');
+    flashPage();
+  }
+}
+
+function resetLahawla() {
+  state.lahawla = 0;
+  renderLahawla();
+  document.getElementById('display-lahawla').classList.remove('complete');
+}
+
+function renderLahawla() {
+  document.getElementById('lahawla-num').textContent = toFarsi(state.lahawla);
+  document.getElementById('lahawla-progress').style.width = (state.lahawla) + '%';
+}
+
+function updateDay() {
+  const idx = parseInt(document.getElementById('day-select').value);
+  document.getElementById('day-zekr-text').textContent = days[idx];
+  resetDay();
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', (i === 0 && tab === 'general') || (i === 1 && tab === 'daily'));
+  });
+  document.getElementById('section-general').classList.toggle('active', tab === 'general');
+  document.getElementById('section-daily').classList.toggle('active', tab === 'daily');
+}
+
+function flashPage() {
+  document.body.classList.add('flashing');
+  setTimeout(() => document.body.classList.remove('flashing'), 1400);
+}
+</script>
+</body>
+</html>
